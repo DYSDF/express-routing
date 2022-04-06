@@ -1,3 +1,4 @@
+import { Express } from 'express'
 import { Controller } from "./controller"
 import { BaseDriver } from "./driver/base"
 import { ExpressDriver } from "./driver/express"
@@ -92,7 +93,8 @@ export function createExecutor<T extends BaseDriver>(driver: T, options: Routing
 }
 
 export function createServer(options?: RoutingOptions): any
-export function createServer<T>(app: T, options?: RoutingOptions): any {
+export function createServer(app: Express, options?: RoutingOptions): any
+export function createServer(app?: Express | RoutingOptions, options?: RoutingOptions): any {
   if (typeof app !== 'function') {
     options = app
     app = undefined as any
