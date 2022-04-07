@@ -1,6 +1,6 @@
 import path from 'path'
 import buildins from 'builtin-modules'
-// import resolve from '@rollup/plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel'
 import json from '@rollup/plugin-json'
@@ -14,16 +14,18 @@ export default {
     exports: 'named'
   },
   external: [
-    ...buildins
+    ...buildins,
+    /^lodash.*/,
+    'glob'
   ],
   plugins: [
-    // resolve(),
-    commonjs({
-      include: /node_modules/
-    }),
     babel({
       configFile: path.resolve(__dirname, '.babelrc'),
-      babelHelpers: 'runtime'
+      babelHelpers: 'bundled'
+    }),
+    resolve(),
+    commonjs({
+      include: /node_modules/
     }),
     json()
   ]
