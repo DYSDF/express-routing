@@ -1,3 +1,4 @@
+import { Express, NextFunction, Request, Response } from 'express'
 import { BaseDriver } from './base'
 import { MiddlewareMetadata, IExpressMiddleware, IExpressErrorMiddleware } from '../metadata/middleware'
 import { ActionMetadata } from '../metadata/action'
@@ -11,22 +12,26 @@ import { getFromContainer } from '../container';
 const ROUTING_STARTED = Symbol('routing controller started')
 
 export class ExpressDriver extends BaseDriver {
-  constructor(public express?: any) {
+  public express: Express
+
+  constructor(express?: Express) {
     super();
-    this.loadExpress();
+    if (!express) {
+      this.express = this.loadExpress()
+    } else {
+      this.express = express
+    }
     this.app = this.express;
   }
 
   /**
    * Dynamically loads express module.
    */
-  protected loadExpress() {
-    if (!this.express) return
-
+  protected loadExpress(): Express {
     if (!require) throw new Error('Cannot load express. Try to install all required dependencies.');
 
     try {
-      this.express = require('express')();
+      return require('express')();
     } catch (e) {
       throw new Error('express package was not found installed. Try to install it: npm install express --save');
     }
@@ -39,9 +44,9 @@ export class ExpressDriver extends BaseDriver {
     if (!this.cors) return
     const cors = this.loadCors();
     if (this.cors === true) {
-      this.express.use(cors());
+      this.express!.use(cors());
     } else {
-      this.express.use(cors(this.cors));
+      this.express!.use(cors(this.cors));
     }
   }
 
@@ -60,12 +65,12 @@ export class ExpressDriver extends BaseDriver {
 
     // if its a regular middleware then register it as express middleware
     else if ((middleware.instance as IExpressMiddleware).use) {
-      middleware_wrapper = (request: any, response: any, next: (err: any) => any) => {
+      middleware_wrapper = (request: Request, response: Response, next: NextFunction) => {
         try {
           const use_result = (middleware.instance as IExpressMiddleware).use(request, response, next);
 
+          // handle process errors
           if (!isPromiseLike(use_result)) return
-
           use_result.catch((error: any) => {
             this.handleError(error, undefined, { request, response, next });
             return error;
@@ -83,7 +88,7 @@ export class ExpressDriver extends BaseDriver {
       value: middleware.instance.constructor.name,
       writable: true,
     });
-    this.express.use(middleware_wrapper);
+    this.express!.use(middleware_wrapper);
   }
 
   /**
@@ -135,14 +140,15 @@ export class ExpressDriver extends BaseDriver {
     };
 
     // finally register action in express
-    this.express[action_metadata.type.toLowerCase()](
+    const action_type = action_metadata.type.toLowerCase();
+    (this.express as any)[action_type](
       route_prefix,
       route_guard,
-      ...before_middlewares,
       ...default_middlewares,
+      ...before_middlewares,
       route_handler,
       ...after_middlewares
-    );
+    )
   }
 
   /**

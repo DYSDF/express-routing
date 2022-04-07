@@ -128,14 +128,13 @@ export class ParamMetadata {
   options: any;
 
   constructor(action_metadata: ActionMetadata, args: IParamMetadataArgs) {
-    if (!args.name) throw new Error('Param args must have property name')
     this.action_metadata = action_metadata;
     this.target = args.object.constructor;
     this.method = args.method;
     this.options = args.options;
     this.index = args.index;
     this.type = args.type;
-    this.name = args.name;
+    this.name = args.name || '__undefined__';
     this.is_array = args.is_array;
 
     if (args.explicit_type) {

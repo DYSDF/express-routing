@@ -148,8 +148,8 @@ export class MetadataBuilder {
     const controllers = !classes
       ? getMetadataArgsStorage().controllers
       : getMetadataArgsStorage().filterControllerMetadatasForClasses(classes);
-    return controllers.map(controllerArgs => {
-      const controller = new ControllerMetadata(controllerArgs);
+    return controllers.map(args => {
+      const controller = new ControllerMetadata(args);
       controller.actions = this.createActions(controller);
       controller.uses = this.createControllerUses(controller);
       return controller;
@@ -175,8 +175,8 @@ export class MetadataBuilder {
       target = Object.getPrototypeOf(target);
     }
 
-    return actions_with_target.map(actionArgs => {
-      const action = new ActionMetadata(controller, actionArgs, this.options);
+    return actions_with_target.map(action_args => {
+      const action = new ActionMetadata(controller, action_args, this.options);
       action.params = this.createParams(action);
       action.uses = this.createActionUses(action);
       action.build(this.createActionResponseHandlers(action));
@@ -199,7 +199,7 @@ export class MetadataBuilder {
   protected createActionResponseHandlers(action: ActionMetadata): ResponseHandlerMetadata[] {
     return getMetadataArgsStorage()
       .filterResponseHandlersWithTargetAndMethod(action.target, action.method)
-      .map(handlerArgs => new ResponseHandlerMetadata(handlerArgs));
+      .map(args => new ResponseHandlerMetadata(args));
   }
 
   /**

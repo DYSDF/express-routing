@@ -52,7 +52,7 @@ export class Controller<T extends BaseDriver> {
     this.metadata_builder
       .buildMiddlewareMetadata(classes)
       .filter(middleware => middleware.global && middleware.type === type)
-      .sort((middleware1, middleware2) => middleware2.priority - middleware1.priority)
+      .sort((mid1, mid2) => mid2.priority - mid1.priority)
       .forEach(middleware => this.driver.registerMiddleware(middleware));
 
     return this;
@@ -64,7 +64,7 @@ export class Controller<T extends BaseDriver> {
   protected async executeAction(action_metadata: ActionMetadata, action: Action) {
     // compute all parameters
     const params_promises = action_metadata.params
-      .sort((param1, param2) => param1.index - param2.index)
+      .sort((p1, p2) => p1.index - p2.index)
       .map(param => this.parameter_handler.handle(action, param));
 
     // after all parameters are computed

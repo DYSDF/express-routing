@@ -1,6 +1,6 @@
 {
   "name": "express-routings",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Allows to create controller classes with methods as actions that handle express requests.",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -42,8 +42,10 @@
     "cookie": "^0.4.2",
     "express": "^4.17.3",
     "glob": "^7.2.0",
+    "lodash": "^4.17.21",
     "mocha": "^9.0.1",
     "nyc": "^15.1.0",
+    "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rollup": "^2.52.3",
     "ts-node": "^10.0.0",

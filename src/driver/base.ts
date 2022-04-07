@@ -57,6 +57,11 @@ export abstract class BaseDriver {
    */
   abstract getParamFromRequest(actionOptions: Action, param: ParamMetadata): any;
 
+  /**
+   * handle json typed error
+   * @param error
+   * @returns
+   */
   protected processJsonError(error: any) {
     if (!this.enable_default_error_handler) return error;
 
@@ -88,6 +93,11 @@ export abstract class BaseDriver {
     return error;
   }
 
+  /**
+   * handle text typed error
+   * @param error
+   * @returns
+   */
   protected processTextError(error: any) {
     if (!this.enable_default_error_handler) return error;
 

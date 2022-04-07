@@ -1,17 +1,16 @@
 import { getMetadataArgsStorage } from "../metadata/builder";
 
 /**
- * Sets response header.
+ * Sets response Content-Type.
  * Must be applied on a controller action.
  */
-export function Header(name: string, value: string): Function {
+export function ContentType(content_type: string): Function {
   return function (object: Object, method_name: string) {
     getMetadataArgsStorage().response_handlers.push({
-      type: 'header',
+      type: 'content-type',
       target: object.constructor,
       method: method_name,
-      value: name,
-      secondary_value: value,
+      value: content_type,
     });
   };
 }

@@ -99,11 +99,10 @@ export function createServer(app?: Express | RoutingOptions, options?: RoutingOp
     options = app
     app = undefined as any
   }
-  const driver = new ExpressDriver(app)
+  const driver = new ExpressDriver(app as Express)
   createExecutor(driver, options)
   return driver.app
 }
-
 
 /**
  * decorators
@@ -111,10 +110,12 @@ export function createServer(app?: Express | RoutingOptions, options?: RoutingOp
 export * from './decorator/all'
 export * from './decorator/body-param'
 export * from './decorator/body'
+export * from './decorator/content-type'
 export * from './decorator/controller'
 export * from './decorator/delete'
 export * from './decorator/get'
 export * from './decorator/header'
+export * from './decorator/middleware'
 export * from './decorator/param'
 export * from './decorator/post'
 export * from './decorator/route'

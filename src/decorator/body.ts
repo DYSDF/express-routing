@@ -17,11 +17,11 @@ export interface IBodyOptions {
  * Must be applied on a controller action parameter.
  */
 export function Body(options?: IBodyOptions): Function {
-  return function (object: Object, methodName: string, index: number) {
+  return function (object: Object, method_name: string, index: number) {
     getMetadataArgsStorage().params.push({
       type: 'body',
       object: object,
-      method: methodName,
+      method: method_name,
       index: index,
       explicit_type: options ? options.type : undefined,
       options: options ? options.options : undefined,
