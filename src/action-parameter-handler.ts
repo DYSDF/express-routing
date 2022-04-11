@@ -15,6 +15,8 @@ export class ActionParameterHandler<T extends BaseDriver> {
 
     if (param.type === 'response') return action.response;
 
+    if (param.type === 'next-function') return action.next;
+
     // get parameter value from request and normalize it
     const value = this.normalizeParamValue(this.driver.getParamFromRequest(action, param), param);
 

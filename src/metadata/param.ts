@@ -19,6 +19,7 @@ export type ParamType =
   | 'cookies'
   | 'request'
   | 'response'
+  | 'next-function'
   | 'context'
   | 'current-user'
   | 'custom-converter';

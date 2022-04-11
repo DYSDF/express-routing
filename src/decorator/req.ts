@@ -1,19 +1,16 @@
 import { getMetadataArgsStorage } from "../metadata/builder";
-import { IBodyOptions } from "./body";
 
 /**
- * Takes partial data of the request body.
+ * Injects a Request object to the controller action parameter.
  * Must be applied on a controller action parameter.
  */
-export function BodyParam(name: string, options?: IBodyOptions): Function {
+export function Req(): Function {
   return function (object: Object, method_name: string, index: number) {
     getMetadataArgsStorage().params.push({
-      type: 'body-param',
+      type: 'request',
       object: object,
       method: method_name,
-      index: index,
-      name: name,
-      explicit_type: options ? options.type : undefined,
+      index: index
     });
   };
 }

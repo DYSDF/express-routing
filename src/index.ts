@@ -1,4 +1,4 @@
-import { Express } from 'express'
+import { Express, NextFunction, Request, Response } from 'express'
 import { Controller } from "./controller"
 import { BaseDriver } from "./driver/base"
 import { ExpressDriver } from "./driver/express"
@@ -58,7 +58,7 @@ export interface RoutingOptions {
   };
 }
 
-export function createExecutor<T extends BaseDriver>(driver: T, options: RoutingOptions = {}): void {
+function createExecutor<T extends BaseDriver>(driver: T, options: RoutingOptions = {}): void {
   // import all controllers
   let controller_classes: Function[] = [];
   if (options && options.controllers && options.controllers.length) {
@@ -100,7 +100,13 @@ export function createServer(app?: Express | RoutingOptions, options?: RoutingOp
     app = undefined as any
   }
   const driver = new ExpressDriver(app as Express)
-  createExecutor(driver, options)
+  let lazy_loaded = false
+  driver.app.use((req: Request, res: Response, next: NextFunction) => {
+    if (lazy_loaded) return next()
+    createExecutor(driver, options)
+    lazy_loaded = true
+    next()
+  })
   return driver.app
 }
 
@@ -116,8 +122,11 @@ export * from './decorator/delete'
 export * from './decorator/get'
 export * from './decorator/header'
 export * from './decorator/middleware'
+export * from './decorator/next'
 export * from './decorator/param'
 export * from './decorator/post'
+export * from './decorator/req'
+export * from './decorator/res'
 export * from './decorator/route'
 export * from './decorator/use-after'
 export * from './decorator/use-before'
