@@ -65,6 +65,11 @@ export interface IActionMetadataArgs {
    * Special function that will be called instead of orignal method of the target.
    */
   methodOverride?: (action_metadata: ActionMetadata, action: Action, params: any[]) => Promise<any> | any;
+
+  /**
+   * is not http response
+   */
+  no_result?: boolean
 }
 
 export class ActionMetadata {
@@ -130,6 +135,11 @@ export class ActionMetadata {
   is_json_typed?: boolean;
 
   /**
+   * Indicates if this action return http result.
+   */
+  no_result?: boolean;
+
+  /**
    * Http code to be used on undefined action returned content.
    */
   undefined_http_code?: number | Function;
@@ -188,6 +198,7 @@ export class ActionMetadata {
     this.target = args.target;
     this.method = args.method;
     this.type = args.type;
+    this.no_result = args.no_result;
     this.appendParams = args.appendParams;
     this.methodOverride = args.methodOverride;
   }

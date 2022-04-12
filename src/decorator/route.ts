@@ -11,6 +11,7 @@ export function Route(route: RegExp): Function
 export function Route(route: string | RegExp, method_name?: ActionType): Function
 export function Route(route: string | RegExp = '', options?: ActionType | {
   method_name?: string,
+  no_result?: boolean,
   appendParams?: (action: Action) => any
 }): Function {
   return function(object: Object, property_name: string) {
@@ -28,6 +29,7 @@ export function Route(route: string | RegExp = '', options?: ActionType | {
       target: object.constructor,
       method: property_name,
       route,
+      no_result: options.no_result,
       appendParams: options.appendParams
     });
   };

@@ -77,6 +77,9 @@ export class Controller<T extends BaseDriver> {
       const result = action_metadata.methodOverride
         ? action_metadata.methodOverride(action_metadata, action, all_params)
         : action_metadata.callMethod(all_params, action);
+
+      if (action_metadata.no_result) return;
+
       return this.handleCallMethodResult(result, action_metadata, action);
     } catch (error) {
       return this.driver.handleError(error, action_metadata, action);

@@ -100,13 +100,7 @@ export function createServer(app?: Express | RoutingOptions, options?: RoutingOp
     app = undefined as any
   }
   const driver = new ExpressDriver(app as Express)
-  let lazy_loaded = false
-  driver.app.use((req: Request, res: Response, next: NextFunction) => {
-    if (lazy_loaded) return next()
-    createExecutor(driver, options)
-    lazy_loaded = true
-    next()
-  })
+  createExecutor(driver, options)
   return driver.app
 }
 
