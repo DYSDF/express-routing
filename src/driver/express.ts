@@ -277,7 +277,6 @@ export class ExpressDriver extends BaseDriver {
       else {
         throw new NotFound();
       }
-
     } else if (result === null) {
       // send null response
       if (action_metadata.is_json_typed) {

@@ -1,6 +1,6 @@
 import { merge } from 'lodash'
 import { Action } from '../action';
-import HttpError from '../exception/http';
+import { HttpError } from '../exception/http';
 import { ActionMetadata } from '../metadata/action';
 import { MiddlewareMetadata } from '../metadata/middleware'
 import { ParamMetadata } from '../metadata/param';
@@ -30,7 +30,7 @@ export abstract class BaseDriver {
   /**
    * Indicates if default routing-controllers error handler should be used or not.
    */
-  enable_default_error_handler: boolean = false;
+  enable_default_error_handler: boolean = true;
 
   /**
    * Map of error overrides.

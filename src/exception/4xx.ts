@@ -1,4 +1,4 @@
-import HttpError from './http'
+import { HttpError } from './http'
 
 export class BadRequest extends HttpError {
   code: number = 400

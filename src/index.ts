@@ -1,4 +1,4 @@
-import { Express, NextFunction, Request, Response } from 'express'
+import { Express } from 'express'
 import { Controller } from "./controller"
 import { BaseDriver } from "./driver/base"
 import { ExpressDriver } from "./driver/express"
@@ -10,6 +10,12 @@ export interface RoutingOptions {
    * By default its enabled if your NODE_ENV is not equal to "production".
    */
   development?: boolean
+
+   /**
+   * Indicates if default routing-controller's error handler is enabled or not.
+   * Enabled by default.
+   */
+  default_error_handler?: boolean;
 
   /**
    * global route prefix, eg: "/api"
@@ -81,6 +87,13 @@ function createExecutor<T extends BaseDriver>(driver: T, options: RoutingOptions
     driver.development = process.env.NODE_ENV !== 'production';
   }
 
+  // default error handler
+  if (options.default_error_handler !== undefined) {
+    driver.enable_default_error_handler = options.default_error_handler;
+  } else {
+    driver.enable_default_error_handler = true;
+  }
+
   if (options.prefix !== undefined) driver.prefix = options.prefix;
 
   driver.cors = options.cors;
@@ -124,3 +137,12 @@ export * from './decorator/res'
 export * from './decorator/route'
 export * from './decorator/use-after'
 export * from './decorator/use-before'
+export * from './decorator/on-null'
+export * from './decorator/on-undefined'
+
+/**
+ * HttpError
+ */
+export * from './exception/http'
+export * from './exception/4xx'
+export * from './exception/5xx'
