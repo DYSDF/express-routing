@@ -1,4 +1,3 @@
-import { Action } from "../action";
 import { ActionType } from "../metadata/action";
 import { getMetadataArgsStorage } from "../metadata/builder";
 
