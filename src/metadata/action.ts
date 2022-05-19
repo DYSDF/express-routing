@@ -125,6 +125,11 @@ export class ActionMetadata {
   is_files_used?: boolean;
 
   /**
+   * Indicates if controller of this action is http-typed.
+   */
+  is_http_typed?: boolean;
+
+  /**
    * Indicates if controller of this action is json-typed.
    */
   is_json_typed?: boolean;
@@ -241,6 +246,9 @@ export class ActionMetadata {
       : this.controller_metadata.type === 'json';
     this.full_route = this.buildFullRoute();
     this.headers = this.buildHeaders(responseHandlers);
+
+    const nonHttpHandler = responseHandlers.find(handler => handler.type === 'non-http')
+    this.is_http_typed = !nonHttpHandler || !nonHttpHandler.value
   }
 
   /**

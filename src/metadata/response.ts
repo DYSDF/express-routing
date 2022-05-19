@@ -7,7 +7,8 @@ export type ResponseHandlerType =
   | 'redirect'
   | 'location'
   | 'on-null'
-  | 'on-undefined';
+  | 'on-undefined'
+  | 'non-http';
 
 export interface IResponseHandlerMetadataArgs {
   /**

@@ -139,6 +139,7 @@ export * from './decorator/use-after'
 export * from './decorator/use-before'
 export * from './decorator/on-null'
 export * from './decorator/on-undefined'
+export * from './decorator/non-http'
 
 /**
  * HttpError
