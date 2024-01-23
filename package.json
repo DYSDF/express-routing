@@ -1,6 +1,6 @@
 {
   "name": "express-routings",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Allows to create controller classes with methods as actions that handle express requests.",
   "main": "cjs/index.js",
   "module": "esm/index.js",

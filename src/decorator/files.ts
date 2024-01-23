@@ -1,13 +1,12 @@
 import { getMetadataArgsStorage } from "../metadata/builder";
 
-export function Query(name: string): Function {
+export function Files(): Function {
   return function (object: Object, method_name: string, index: number) {
     getMetadataArgsStorage().params.push({
-      type: 'param',
+      type: 'files',
       object: object,
       method: method_name,
       index: index,
-      name: name,
     });
   };
 }
