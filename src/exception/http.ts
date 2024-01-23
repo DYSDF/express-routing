@@ -7,6 +7,7 @@ export class HttpError extends Error {
     this.code = code || 500
     this.status = status || 'FAILED'
     this.stack = new Error().stack;
+    Object.setPrototypeOf(this, HttpError.prototype)
   }
 
   toJSON(res: Response) {
